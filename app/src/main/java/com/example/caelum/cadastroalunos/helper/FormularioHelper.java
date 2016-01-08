@@ -38,6 +38,10 @@ public class FormularioHelper {
         aluno.setTelefone(telefone.getText().toString());
         aluno.setNota(Double.valueOf(nota.getProgress()));
 
+        /*if (this.aluno.getId() != null){
+            aluno.setId(this.aluno.getId());
+        }*/
+
         return aluno;
     }
 
@@ -47,6 +51,16 @@ public class FormularioHelper {
 
     public void mostrarErro(){
         nome.setError("Campo nome não pode ser vazio");
+    }
+
+    public void insereDadosNoFormulario(Aluno aluno){
+        nome.setText(aluno.getNome());
+        site.setText(aluno.getSite());
+        endereco.setText(aluno.getEndereco());
+        telefone.setText(aluno.getTelefone());
+        nota.setProgress(aluno.getNota().intValue());
+
+        this.aluno = aluno;
     }
 
 }

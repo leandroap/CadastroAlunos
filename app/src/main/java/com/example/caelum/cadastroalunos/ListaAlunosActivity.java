@@ -38,7 +38,12 @@ public class ListaAlunosActivity extends ActionBarActivity {
         this.listaAlunos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(ListaAlunosActivity.this, "Item clicado: " + position, Toast.LENGTH_LONG).show();
+
+                Aluno alunoSelecionado = (Aluno) listaAlunos.getItemAtPosition(position);
+                Intent editarAluno = new Intent(ListaAlunosActivity.this, FormularioActivity.class);
+                editarAluno.putExtra("alunoSelecionado", alunoSelecionado);
+                startActivity(editarAluno);
+
             }
         });
 
@@ -69,8 +74,10 @@ public class ListaAlunosActivity extends ActionBarActivity {
         getMenuInflater().inflate(R.menu.menu_context_lista, menu);
 
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-        alunoSelecionado = (Aluno) listaAlunos.getAdapter().getItem(info.position);
+        this.alunoSelecionado = (Aluno) this.listaAlunos.getAdapter().getItem(info.position);
 
+        /**
+        Criando menu sem utilizar o xml de menu
         MenuItem deletar = menu.add("Deletaaaar");
         deletar.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
@@ -93,9 +100,7 @@ public class ListaAlunosActivity extends ActionBarActivity {
 
                 return false;
             }
-        });
-
-
+        });*/
 
     }
 
@@ -104,22 +109,7 @@ public class ListaAlunosActivity extends ActionBarActivity {
 
         switch (item.getItemId()){
             case R.id.menu_deletar:
-
-                new AlertDialog.Builder(ListaAlunosActivity.this)
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .setTitle("Deletar")
-                        .setMessage("Deseja mesmo deletar?")
-                        .setPositiveButton("Quero",
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        AlunoDAO dao = new AlunoDAO(ListaAlunosActivity.this);
-                                        dao.deletar(alunoSelecionado);
-                                        dao.close();
-                                        carregaLista();
-                                    }
-                                }).setNegativeButton("Não", null).show();
-
+                alertDeletarAluno();
                 break;
         }
 
@@ -127,7 +117,20 @@ public class ListaAlunosActivity extends ActionBarActivity {
     }
 
     public void alertDeletarAluno(){
-
+        new AlertDialog.Builder(ListaAlunosActivity.this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("Deletar")
+                .setMessage("Deseja mesmo deletar?")
+                .setPositiveButton("Quero",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                AlunoDAO dao = new AlunoDAO(ListaAlunosActivity.this);
+                                dao.deletar(alunoSelecionado);
+                                dao.close();
+                                carregaLista();
+                            }
+                        }).setNegativeButton("Não", null).show();
     }
 
     @Override

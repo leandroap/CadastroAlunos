@@ -1,5 +1,6 @@
 package com.example.caelum.cadastroalunos;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -12,10 +13,20 @@ import com.example.caelum.cadastroalunos.modelo.Aluno;
 
 public class FormularioActivity extends ActionBarActivity {
 
+    FormularioHelper helper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_formulario);
+
+        Intent intent = getIntent();
+        Aluno aluno = (Aluno) intent.getSerializableExtra("alunoSelecionado");
+        helper = new FormularioHelper(this);
+
+        if (aluno != null){
+            helper.insereDadosNoFormulario(aluno);
+        }
     }
 
 
@@ -35,9 +46,7 @@ public class FormularioActivity extends ActionBarActivity {
 
         switch (id){
             case R.id.formulario_menu_ok:
-
                 salvarAluno();
-
                 return false;
             default:
                 return super.onOptionsItemSelected(item);
@@ -45,13 +54,17 @@ public class FormularioActivity extends ActionBarActivity {
     }
 
     public void salvarAluno(){
-        FormularioHelper helper = new FormularioHelper(this);
-
         Aluno aluno = helper.pegaAlunoDoFormulario();
 
         if (helper.temNome()){
             AlunoDAO alunoDAO = new AlunoDAO(this);
-            alunoDAO.insere(aluno);
+
+            if(aluno.getId() == null) {
+                alunoDAO.insere(aluno);
+            } else {
+                alunoDAO.update(aluno);
+            }
+
             alunoDAO.close();
             finish();
         } else {
