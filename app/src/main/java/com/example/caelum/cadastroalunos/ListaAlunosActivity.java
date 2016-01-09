@@ -3,6 +3,7 @@ package com.example.caelum.cadastroalunos;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.ContextMenu;
@@ -51,7 +52,6 @@ public class ListaAlunosActivity extends ActionBarActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 Aluno aluno = (Aluno) parent.getItemAtPosition(position);
-                Toast.makeText(ListaAlunosActivity.this, "Aluno Selecionado: " + aluno.getNome(), Toast.LENGTH_LONG).show();
                 return false;
             }
         });
@@ -110,6 +110,31 @@ public class ListaAlunosActivity extends ActionBarActivity {
         switch (item.getItemId()){
             case R.id.menu_deletar:
                 alertDeletarAluno();
+                break;
+            case R.id.menu_ligar:
+                Intent intentLigar = new Intent(Intent.ACTION_CALL);
+                intentLigar.setData(Uri.parse("tel:"+this.alunoSelecionado.getTelefone()));
+                startActivity(intentLigar);
+                break;
+            case R.id.menu_sms:
+                Intent intentSMS = new Intent(Intent.ACTION_VIEW);
+                intentSMS.setData(Uri.parse("sms:"+this.alunoSelecionado.getTelefone()));
+                intentSMS.putExtra("sms_body", "Ola aluno");
+                startActivity(intentSMS);
+                break;
+            case R.id.menu_mapa:
+                Intent intentMapa = new Intent(Intent.ACTION_VIEW);
+                String endereco = alunoSelecionado.getEndereco();
+                intentMapa.setData(Uri.parse("geo:0,0?z=14&q=" + Uri.encode(endereco)));
+                startActivity(intentMapa);
+                break;
+            case R.id.menu_site:
+                Intent intentSite = new Intent(Intent.ACTION_VIEW);
+                if (this.alunoSelecionado.getSite() != null) {
+                    String site = this.alunoSelecionado.getSite();
+                    intentSite.setData(Uri.parse("http:" + site));
+                    startActivity(intentSite);
+                }
                 break;
         }
 
