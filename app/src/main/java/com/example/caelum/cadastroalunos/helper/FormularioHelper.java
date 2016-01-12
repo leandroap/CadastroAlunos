@@ -69,6 +69,8 @@ public class FormularioHelper {
         telefone.setText(aluno.getTelefone());
         nota.setProgress(aluno.getNota().intValue());
 
+        carregaImagem(aluno.getCaminhoFoto());
+
         this.aluno = aluno;
     }
 
@@ -77,11 +79,13 @@ public class FormularioHelper {
     }
 
     public void carregaImagem(String localFoto){
-        Bitmap bitmap = BitmapFactory.decodeFile(localFoto);
-        Bitmap newBitmap = Bitmap.createScaledBitmap(bitmap, 400, 300, true);
+        if (localFoto!= null  ) {
+            Bitmap bitmap = BitmapFactory.decodeFile(localFoto);
+            Bitmap newBitmap = Bitmap.createScaledBitmap(bitmap, 400, 300, true);
 
-        foto.setImageBitmap(newBitmap);
-        foto.setScaleType(ImageView.ScaleType.FIT_XY);
-        foto.setTag(localFoto);
+            foto.setImageBitmap(newBitmap);
+            foto.setScaleType(ImageView.ScaleType.FIT_XY);
+            foto.setTag(localFoto);
+        }
     }
 }
