@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="linha_par">#97CBE2</color>
-    <color name="linha_impar">#76BDDD</color>
+    <color name="linha_par">#F0F0F0</color>
+    <color name="linha_impar">#FFFFFF</color>
 </resources>
