@@ -19,6 +19,8 @@ import android.widget.Toast;
 import com.example.caelum.cadastroalunos.adapter.ListaAlunoAdapter;
 import com.example.caelum.cadastroalunos.dao.AlunoDAO;
 import com.example.caelum.cadastroalunos.modelo.Aluno;
+import com.example.caelum.cadastroalunos.service.WebClient;
+import com.example.caelum.cadastroalunos.task.EnviaAlunosTask;
 import com.example.caelum.cadastroalunos.util.AlunoConverter;
 
 import java.util.List;
@@ -182,13 +184,11 @@ public class ListaAlunosActivity extends ActionBarActivity {
 
         switch (id){
             case R.id.menu_lista_enviar_notas:
-                AlunoDAO alunoDAO = new AlunoDAO(this);
-                List<Aluno> alunos = alunoDAO.getListaAlunos();
-                alunoDAO.close();
-
-                String json = new AlunoConverter().toJSON(alunos);
-
-                Toast.makeText(this, json, Toast.LENGTH_LONG).show();
+                new EnviaAlunosTask(this).execute();
+                return true;
+            case R.id.menu_lista_receber_provas:
+                Intent provas = new Intent(this, ProvasActivity.class);
+                startActivity(provas);
                 return true;
         }
 
