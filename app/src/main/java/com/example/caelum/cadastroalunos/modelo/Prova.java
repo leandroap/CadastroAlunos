@@ -43,6 +43,6 @@ public class Prova implements Serializable {
 
     @Override
     public String toString() {
-        return  materia + " - "+ data;
+        return  materia;
     }
 }

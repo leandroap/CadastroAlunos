@@ -14,7 +14,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         
-        <receiver android:name="com.example.caelum.cadastroalunos.SMSReceiver" android:enabled="true">
+        <receiver android:name=".service.SMSReceiver" android:enabled="true">
             <intent-filter>
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>

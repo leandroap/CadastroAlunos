@@ -1,4 +1,4 @@
-package com.example.caelum.cadastroalunos;
+package com.example.caelum.cadastroalunos.service;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.telephony.SmsMessage;
 import android.widget.Toast;
 
+import com.example.caelum.cadastroalunos.R;
 import com.example.caelum.cadastroalunos.dao.AlunoDAO;
 
 /**
