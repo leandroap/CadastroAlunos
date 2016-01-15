@@ -190,6 +190,10 @@ public class ListaAlunosActivity extends ActionBarActivity {
                 Intent provas = new Intent(this, ProvasActivity.class);
                 startActivity(provas);
                 return true;
+            case R.id.menu_lista_mapa:
+                Intent intentMapa = new Intent(this, MostraAlunoActivity.class);
+                startActivity(intentMapa);
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
