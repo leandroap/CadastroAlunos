@@ -2,6 +2,7 @@ package com.example.caelum.cadastroalunos.fragment;
 
 import com.example.caelum.cadastroalunos.dao.AlunoDAO;
 import com.example.caelum.cadastroalunos.modelo.Aluno;
+import com.example.caelum.cadastroalunos.util.AtualizadorDeLocalizacao;
 import com.example.caelum.cadastroalunos.util.Localizador;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -17,20 +18,23 @@ import java.util.List;
  */
 public class MapaFragment extends SupportMapFragment {
 
+
+
     @Override
     public void onResume() {
         super.onResume();
-        GoogleMap mapa = getMap();
+
         Localizador localizador = new Localizador(getActivity());
         AlunoDAO alunoDAO = new AlunoDAO(getActivity());
 
+        GoogleMap mapa = getMap();
         LatLng localCaelum = localizador.getCoordenada("Rua Vergueiro 3185 Vila Mariana");
         mapa.addMarker( new MarkerOptions()
                 .title("Caelum")
                 .snippet("Ensino e Inovação")
                 .position(localCaelum));
 
-        mapa.moveCamera(this.centralizaNo(localCaelum));
+        this.centralizaNo(localCaelum);
 
         List<Aluno> alunos = alunoDAO.getListaAlunos();
         for (Aluno aluno : alunos){
@@ -44,10 +48,14 @@ public class MapaFragment extends SupportMapFragment {
             }
         }
 
+        AtualizadorDeLocalizacao atualizador = new AtualizadorDeLocalizacao(getActivity(), this);
+
+
     }
 
-    private CameraUpdate centralizaNo(LatLng local){
+    public void centralizaNo(LatLng local){
+        GoogleMap mapa = getMap();
         CameraUpdate camera = CameraUpdateFactory.newLatLngZoom(local, 11);
-        return camera;
+        mapa.moveCamera(camera);
     }
 }
